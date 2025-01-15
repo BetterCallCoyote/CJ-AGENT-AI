@@ -1,0 +1,85 @@
+import tweepy
+import openai
+import time
+import random
+
+# Configure Twitter API credentials
+consumer_key = 'YOUR_API_KEY'
+consumer_secret = 'YOUR_API_SECRET'
+access_token = 'YOUR_ACCESS_TOKEN'
+access_token_secret = 'YOUR_ACCESS_TOKEN_SECRET'
+
+# Configure OpenAI API key
+openai.api_key = 'YOUR_OPENAI_API_KEY'
+
+# Authenticate with Twitter API
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tweepy.API(auth)
+
+# List of crypto community accounts to interact with
+positive_accounts = ['@Bitcoin', '@ethereum', '@Solana', '@Cardano']
+negative_accounts = ['@BrockPierce', '@Crypto_Messiah']
+
+# Function to generate a tweet using OpenAI
+def generate_tweet():
+    prompt = (
+        "Imitate the humorous tone of Carl 'CJ' Johnson from GTA San Andreas. "
+        "The tweet should talk about cryptocurrencies, mentioning concepts like Bitcoin, Solana, Ethereum, crypto mining, and the market in general. "
+        "The style should be irreverent, funny, and street-smart, as if CJ was talking about crypto. "
+        "Make it a funny, relatable comment about the crypto market."
+    )
+    
+    # Request text from OpenAI (GPT-3 or GPT-4)
+    response = openai.Completion.create(
+        engine="gpt-3.5-turbo",  # Or you can use "gpt-4" if you have access
+        prompt=prompt,
+        max_tokens=60,  # Limit the tweet length
+        temperature=0.7,  # Control the creativity of the model
+    )
+    
+    tweet_text = response.choices[0].text.strip()
+    return tweet_text
+
+# Function to generate a hate or support comment based on the account
+def generate_comment(account):
+    if account in positive_accounts:
+        # Generate a supportive comment
+        comment = f"Yo, {account}, you're crushing it in the crypto game! 🚀 Keep it up, homie! #CryptoKing"
+    elif account in negative_accounts:
+        # Generate a hate comment
+        comment = f"Man, {account}, your crypto game is weaker than Big Smoke's appetite. 😂 Time to step it up! #WeakHustle"
+    else:
+        # Neutral comment
+        comment = f"Yo, {account}, what's the next move in the crypto world? Let's see if you really got what it takes! #CryptoTalk"
+    
+    return comment
+
+# Function to post a generated tweet
+def post_tweet():
+    tweet_text = generate_tweet()  # Generate tweet automatically
+    api.update_status(tweet_text)  # Post the tweet
+    print(f'Tweet posted: {tweet_text}')
+
+# Function to comment on a tweet from a specific account
+def comment_on_tweet(account):
+    # Get the latest tweet from the account
+    tweets = api.user_timeline(screen_name=account, count=1, tweet_mode="extended")
+    if tweets:
+        latest_tweet = tweets[0]
+        comment = generate_comment(account)
+        # Post a reply to the latest tweet
+        api.update_status(status=comment, in_reply_to_status_id=latest_tweet.id)
+        print(f'Comment posted on {account} tweet: {comment}')
+    else:
+        print(f"No tweets found from {account}")
+
+# Run the bot every set interval (example, every 30 minutes)
+while True:
+    post_tweet()  # Post a regular tweet
+    
+    # Optionally, comment on recent tweets from accounts
+    for account in positive_accounts + negative_accounts:
+        comment_on_tweet(account)  # Interact with the community
+
+    time.sleep(1800)  # Wait 30 minutes before posting another tweet and commenting
