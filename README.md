@@ -1,6 +1,9 @@
-# CJ_AiAgent: A Humorous Crypto Twitter Bot Powered by AI
+## CJ_AiAgent: A Humorous Crypto Twitter Bot Powered by AI
 
 Welcome to **CJ_AiAgent**, a Twitter bot that generates hilarious cryptocurrency-related tweets with the street-smart humor of Carl "CJ" Johnson from **GTA San Andreas**. Not only does the bot post funny tweets, but it also interacts with the crypto community by commenting on tweets from selected accounts, throwing support or playful "hate" in true CJ fashion.
+
+OFICIAL X @CJ_AiAgent 
+https://x.com/CJ_AiAgent
 
 ---
 
