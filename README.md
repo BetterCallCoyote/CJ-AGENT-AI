@@ -91,7 +91,7 @@ pip install tweepy openai`
 
 **OpenAI API Key:**
 
-`python
+python
 openai.api_key = 'YOUR_OPENAI_API_KEY'
 
 4. **Run the Bot: Once everything is set up, run the bot with the following command:**
@@ -110,8 +110,8 @@ Modify the positive_accounts and negative_accounts lists to specify the Twitter 
 Example:
 
 `python
-positive_accounts = ['@Bitcoin', '@ethereum', '@Solana']
-negative_accounts = ['@Crypto_Messiah', '@BrockPierce']`
+- **positive_accounts = ['@Bitcoin', '@ethereum', '@Solana']**
+- **negative_accounts = ['@Crypto_Messiah', '@BrockPierce']`**
 
 
 2. **Tweet Frequency:**
